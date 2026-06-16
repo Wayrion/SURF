@@ -1,0 +1,22 @@
+#cloud-config
+write_files:
+  - path: /etc/nixos/proxmox-packages.nix
+    permissions: '0644'
+    content: |
+      { pkgs, ... }: {
+        # Enable the QEMU Guest Agent for Proxmox communication
+        services.qemuGuest.enable = true;
+        
+        # Install the additional packages requested
+        environment.systemPackages = with pkgs; [ 
+          curl 
+          wget 
+        ];
+      }
+runcmd:
+  - |
+    # Inject our custom config into the main NixOS configuration and apply it
+    if ! grep -q "proxmox-packages.nix" /etc/nixos/configuration.nix; then
+      sed -i 's|imports = \[|imports = \[ ./proxmox-packages.nix |' /etc/nixos/configuration.nix
+      nixos-rebuild switch
+    fi
