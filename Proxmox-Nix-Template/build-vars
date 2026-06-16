@@ -1,0 +1,21 @@
+# VM Options
+build_vm_id='999'
+install_dir='/home/root/Proxmox-VM-Template/'
+creator='user'
+keyfile="${install_dir}/key_ssh.txt"
+
+# Official NixOS Proxmox VMA build (Stable 26.05 release)
+# We pull from the /latest/ endpoint to grab the newest successful rolling build.
+# We are downloading the latest-finished build as opposed to latest, which might be an unsuccesful build.
+vma_url='https://hydra.nixos.org/job/nixos/release-26.05/nixos.proxmoxVMA.x86_64-linux/latest-finished/download/1'
+image_name='nixos-26.05-proxmox.vma.zst'
+
+# Proxmox Storage & VM Settings
+storage_location='local-lvm'
+nameserver='145.145.145.145'
+searchdomain='surfcloud.nl'
+cloud_init_user='user'
+scsihw='virtio-scsi-pci'
+template_name='NixOS-26.05-Template'
+vm_mem='1024'
+vm_cores='1'
