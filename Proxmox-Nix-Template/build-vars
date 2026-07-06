@@ -1,6 +1,6 @@
 # VM Options
 build_vm_id='999'
-install_dir='/root/Proxmox-Nix-Template/'
+install_dir='/root/Proxmox-Nix-Template'
 creator='user'
 keyfile="${install_dir}/key_ssh.txt"
 
