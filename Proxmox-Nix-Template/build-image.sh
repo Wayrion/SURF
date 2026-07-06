@@ -1,6 +1,6 @@
 #! /bin/sh
 
-set -euo pipefail
+set -eu
 
 # --- SMART SUDO CHECK ---
 if [ "$(id -u)" -eq 0 ]; then
@@ -8,7 +8,7 @@ if [ "$(id -u)" -eq 0 ]; then
 elif command -v sudo >/dev/null 2>&1; then
   SUDO="sudo "
 else
-  echo "[ERROR] This script requires root privileges. Please run as root or install 'sudo'."
+  echo "[ERROR] This script requires root privileges. Please run as root"
   exit 1
 fi
 # ------------------------
