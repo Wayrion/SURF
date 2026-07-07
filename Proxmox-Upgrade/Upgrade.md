@@ -12,18 +12,25 @@
 
 # Upgrade procedure:
 - Run `sudo pve8to9 --full` to get a checklist of all the things to do before the upgrade.
+
+![output of pve8to9](./images/checklist-initial.png)
+
+
 - Run `sudo apt update` to update all packages to the latest version
 - Update to the latest microcode.
-    1. We need to enable Non-free firmware. We can do this by:
+    1. We need to enable non-free firmware. We can do this by:
     2. `sudo nano /etc/apt/sources.list`
     3. Add non-free-firmware to the end of the sources on EACH line.
     4. The final sources.list file should look something like this:
 
-        ```bash
-        deb http://deb.debian.org/debian bookworm main contrib non-free-firmware
-        deb http://deb.debian.org/debian bookworm-updates main contrib non-free-firmware
-        deb http://security.debian.org bookworm-security main contrib non-free-firmware
-        ```
+```bash
+    deb http://deb.debian.org/debian bookworm main contrib non-free-firmware
+    deb http://deb.debian.org/debian bookworm-updates main contrib non-free-firmware
+    deb http://security.debian.org bookworm-security main contrib non-free-firmware
+    ```
+
+    ![sources.list after adding non-free-firmware](./images/non-free-firmware.png)
+
     5. Save and Exit (Ctrl + S then Ctrl + X)
     6. Run sudo apt update
     7. 
