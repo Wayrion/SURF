@@ -7,12 +7,14 @@
 - Perform inplace backup via apt
 - There's downtime associated with this migration.
 
+# Prerequisites:
+- Ensure you are atleast on a 8.4.1 or newer firmware. Also, run `sudo apt dist-upgrade` to upgrade to the latest available version on v8. This should be v8.4.19 or higher.
+
 # Upgrade procedure:
 - Run `sudo pve8to9 --full` to get a checklist of all the things to do before the upgrade.
 - Run `sudo apt update` to update all packages to the latest version
 - Update to the latest microcode.
-  - On AMD Systems (Most likely):
-    1. Enable Non-free firmware
+    1. We need to enable Non-free firmware. We can do this by:
     2. `sudo nano /etc/apt/sources.list`
     3. Add non-free-firmware to the end of the sources on EACH line.
     4. The final sources.list file should look something like this:
@@ -24,31 +26,30 @@
         ```
     5. Save and Exit (Ctrl + S then Ctrl + X)
     6. Run sudo apt update
-    7. `sudo apt install amd64-microcode`
-
-  - On Intel Systems:
-    ```bash
-    apt install intel-microcode
-    ```
+    7. 
+    - On AMD Systems (Most likely):
+      `sudo apt install amd64-microcode`
+      - On Intel Systems:
+      `sudo apt install intel-microcode`
+- Remove Systemd boot if the checklist prompts you to, using `sudo apt remove systemd-boot`
 - At this step, it would be ideal to perform a reboot to ensure that the latest micro-code patch has been applied.
 - Run `sudo apt dist-upgrade` to be on the latest minor version. Then hard refresh (Ctrl + Shift + R or ⌘ + Alt + R) the web UI to see the changes. Use `pveversion` to check your version. Ensure you are at least on version 8.4.1.
 - Point apt to Debian 13 (Trixie) repositories with:
   ```bash
-  sudo sed -i 's/bookworm/trixie/g' /etc/apt/sources.list
-  sudo sed -i 's/bookworm/trixie/g' /etc/apt/sources.list.d/*.list
-  sudo sed -i 's/bookworm/trixie/g' /etc/apt/sources.list.d/*.sources
+  sed -i 's/bookworm/trixie/g' /etc/apt/sources.list
+  sed -i 's/bookworm/trixie/g' /etc/apt/sources.list.d/pve-enterprise.list
   ```
 
 - Add the Proxmox V9 Package Repository using:
-  ```bash
-  cat > /etc/apt/sources.list.d/proxmox.sources << EOF
-  Types: deb
-  URIs: http://download.proxmox.com/debian/pve
-  Suites: trixie
-  Components: pve-no-subscription
-  Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
-  EOF
-  ```
+```bash
+cat > /etc/apt/sources.list.d/proxmox.sources << EOF
+Types: deb
+URIs: http://download.proxmox.com/debian/pve
+Suites: trixie
+Components: pve-no-subscription
+Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
+EOF
+```
 
 - Now, we can take a note of all the running VMs, and save them to a list so we can start them later. Shutting down all VMs is a pre-requisite for the upgrade procedure. To take note of all the VMs running, `sudo qm list | awk '$3 == "running" {print $1}' > running_vms.txt`. Then proceed to shut them down using `sudo for vm in $(cat /root/running_vms.txt); do sudo qm shutdown $vm; done`. Note that some VMs may fail to shut down as they do not interpret the shutdown signal from QEMU. You will need to stop these VMs manually.
 
