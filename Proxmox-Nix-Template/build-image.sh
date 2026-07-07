@@ -15,9 +15,10 @@ fi
 
 # Ensure the install directory variables are loaded
 . ./build-vars
+mkdir -p "${install_dir}"
 
 echo "[INFO] Checking for ID conflicts..."
-if [ -f "/etc/pve/qemu-server/${build_vm_id}.conf" ]; then
+if ${SUDO} test -f "/etc/pve/qemu-server/${build_vm_id}.conf"; then
   echo "[ERROR] VM ID ${build_vm_id} already exists! Aborting to prevent data loss."
   exit 1
 fi
