@@ -1,6 +1,7 @@
 # VM Options
 build_vm_id='999'
 install_dir="${HOME}/Proxmox-Nix-Template"
+staging_dir='/tmp'
 keyfile="${install_dir}/key_ssh.txt"
 
 # Official NixOS Proxmox VMA build (Stable 26.05 release)

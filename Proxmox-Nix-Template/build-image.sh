@@ -8,7 +8,7 @@ if [ "$(id -u)" -eq 0 ]; then
 elif command -v sudo >/dev/null 2>&1; then
   SUDO="sudo "
 else
-  echo "[ERROR] This script requires root privileges. Please run as root"
+  echo "[ERROR] This script requires root privileges for Proxmox commands. Please run as root"
   exit 1
 fi
 # ------------------------
@@ -23,17 +23,14 @@ if ${SUDO} test -f "/etc/pve/qemu-server/${build_vm_id}.conf"; then
   exit 1
 fi
 
-echo "[INFO] Cleaning up old staging files."
-rm -f "${install_dir}/${image_name}"
-
-echo "[INFO] Downloading NixOS 26.05 VMA image from Hydra..."
-if ! curl -f -L -s "${vma_url}" -o "${install_dir}/${image_name}"; then
+echo "[INFO] Downloading NixOS 26.05 VMA image from Hydra to /tmp..."
+if ! curl -f -L -s "${vma_url}" -o "${staging_dir}/${image_name}"; then
   echo "[ERROR] Download failed! The Hydra URL returned a 404."
   exit 1
 fi
 
 echo "[INFO] Restoring VM from VMA backup archive."
-${SUDO}qmrestore "${install_dir}/${image_name}" "${build_vm_id}" --storage "${storage_location}" --unique 1
+${SUDO}qmrestore "${staging_dir}/${image_name}" "${build_vm_id}" --storage "${storage_location}" --unique 1
 
 echo "[INFO] Setting up Cloud-Init User Data Snippet..."
 ${SUDO}mkdir -p /var/lib/vz/snippets
@@ -59,5 +56,8 @@ ${SUDO}qm set "${build_vm_id}" \
 
 echo "[INFO] Conversion to template."
 ${SUDO}qm template "${build_vm_id}"
+
+echo "[INFO] Cleaning up staging files from /tmp."
+rm -f "${staging_dir}/${image_name}"
 
 echo "[SUCCESS] NixOS 26.05 Template successfully created."
