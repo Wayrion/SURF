@@ -11,6 +11,8 @@ All commit messages marked with [GenAI], are the commits were GenAI was used to 
 ## Proxmox Nix Template:
 GenAI was mainly used to to quickly create an line-by-line port of [Proxmox-Debian-Template](https://codeberg.org/efef/Proxmox-VM-Template). Upon review of the created port, it was determined that the AI generated potentially destructive commands in the script, which was then caught and changed before committing. Furthermore, issues were encountered with NixOS not booting with the UEFI firmware type, so that was also changed to the Legacy Seabios. AI was used here to change the keyword in the build var. Also under manual testing it was realized that the script was problematic if ran as root user, as it would just return sudo not found, as the user is already sudo. The AI was then prompted again to create a check, to see if the user is already sudo, to decide wether to use the sudo prefix in the commands or not. After the AI generated the output, the code was then tested both on personal and on SURF infrastructure with further patches being manually done. AI was mainly used to do the busy work.
 
+Furthermore, after the port was created, some methodology changes were manually made like opting to use VMA images from [Hydra](https://hydra.nixos.org/) as opposed to qcow2 images. This is because of the builds available from Hydra and due to the convenience of using VMA images with Proxmox. 
+
 # Acknowledgements
 Some of the development in this repository is funded by the [Next Generation Internet (NGI)](https://www.ngi.eu/) initiative through the [NLNet Foundation](https://nlnet.nl/).
 
