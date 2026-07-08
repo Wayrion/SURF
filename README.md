@@ -16,7 +16,7 @@ Furthermore, after the port was created, some methodology changes were manually 
 # Acknowledgements
 Some of the development in this repository is funded by the [Next Generation Internet (NGI)](https://www.ngi.eu/) initiative through the [NLNet Foundation](https://nlnet.nl/).
 
-[<img src="https://nlnet.nl/image/logos/NGI0_tag.svg" alt="NGI Zero Fund logo" style="width:10rem;" />](https://nlnet.nl/NGI0/)
+[<img src="https://nlnet.nl/image/logos/NGI_tag.svg" alt="NGI Fund logo" style="width:10rem;" />](https://nlnet.nl/NGI0/)
 &nbsp;&nbsp;
 [<img src="https://nlnet.nl/image/logos/EC.svg" alt="European Commission logo" style="width:10rem;" />](https://ngi.eu/about/)
 &nbsp;&nbsp;
