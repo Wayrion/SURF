@@ -66,7 +66,7 @@ EOF
 
 - Ensure you're in the terminal multiplexer of your choice.
 
-- We can finally run `sudo apt dist-upgrade` to start the official upgrade to v9. For any diffs opened in vim, firstly, do not panic and forget how to exit vim, then type q (or :q) to exit vim. For any splash screens asking for confirmation of changes, follow the guide listed in https://pve.proxmox.com/wiki/Upgrade_from_8_to_9#Update_Debian_Base_Repositories_to_Trixie, under the title, "Upgrade the system to Debian Trixie and Proxmox VE 9.0".
+- We can finally run `sudo apt dist-upgrade` to start the official upgrade to v9. For any diffs opened in vim, firstly, do not panic and forget how to exit vim, then type q (or :q) to exit vim. For any splash screens asking for confirmation of changes, follow the guide listed in https://pve.proxmox.com/wiki/Upgrade_from_8_to_9#Update_Debian_Base_Repositories_to_Trixie, under the title, "Upgrade the system to Debian Trixie and Proxmox VE 9.0". Defaults are usually safe
 
 - After dist-upgrade completes successfully, you can re-check using `pve8to9 --full` to ensure that the upgrade is successful.
 - Optional but highly recommended, run `sudo apt modernize-sources` to migrate to the recommended deb822 style format.
