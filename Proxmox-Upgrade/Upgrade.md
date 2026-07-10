@@ -44,6 +44,8 @@
 - Point apt to Debian 13 (Trixie) repositories with:
   ```bash
   sed -i 's/bookworm/trixie/g' /etc/apt/sources.list
+
+  # ONLY if you use PVE Enterprise Repo:
   sed -i 's/bookworm/trixie/g' /etc/apt/sources.list.d/pve-enterprise.list
   ```
 
