@@ -58,7 +58,7 @@ Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
 EOF
 ```
 
-- Now, we can take a note of all the running VMs, and save them to a list so we can start them later. Shutting down all VMs is a pre-requisite for the upgrade procedure. To take note of all the VMs running, `sudo qm list | awk '$3 == "running" {print $1}' > running_vms.txt`. Then proceed to shut them down using `sudo for vm in $(cat /root/running_vms.txt); do sudo qm shutdown $vm; done`. Note that some VMs may fail to shut down as they do not interpret the shutdown signal from QEMU. You will need to stop these VMs manually.
+- Now, we can take a note of all the running VMs, and save them to a list so we can start them later. Shutting down all VMs is a pre-requisite for the upgrade procedure. To take note of all the VMs running, `sudo qm list | awk '$3 == "running" {print $1}' > running_vms.txt`. Then proceed to shut them down (as root) using `for vm in $(cat /root/running_vms.txt); do sudo qm shutdown $vm; done`. Note that some VMs may fail to shut down as they do not interpret the shutdown signal from QEMU. You will need to stop these VMs manually.
 
 - Now, we must take a backup of the running systems. If a backup task exists, run it now. If not see #Creating a Datastore and API Token for Proxmox Backup Server
 
@@ -71,7 +71,7 @@ EOF
 - After dist-upgrade completes successfully, you can re-check using `pve8to9 --full` to ensure that the upgrade is successful.
 - Optional but highly recommended, run `sudo apt modernize-sources` to migrate to the recommended deb822 style format.
 - Reboot and check you are on the right version using `pveversion` and also perform a hard refresh on the browser as well (Ctrl + Shift + R or ⌘ + Alt + R).
-- Restart the VMs again using `sudo for vm in $(cat /root/running_vms.txt); do qm start $vm; done`
+- Restart the VMs again using `for vm in $(cat /root/running_vms.txt); do sudo qm start $vm; done`
 
 
 # Creating a backup task
