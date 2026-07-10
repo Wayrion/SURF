@@ -83,7 +83,7 @@ EOF
   - Select the virtual machines or containers you wish to back up.
   - Configure the schedule (f.ex, run now or set a time).
   - Under Storage, select your Proxmox Backup Server storage.
-  - Set mode to Snapshot (to backup the VMs without stopping them) or Stop (to perform a full backup by stopping the VM). Do not use Syspend as its deprecated and superceeded by Snapshot.
+  - Set mode to Snapshot (to backup the VMs without stopping them) or Stop (to perform a full backup by stopping the VM). Do not use suspend as its deprecated and superceeded by Snapshot.
   - Do not configure retention policies here, but rather in Proxmox Backup Server.
   - Confirm and create the job.
 - Once the backup task is created (or if it already exists), run it now to back up your systems before proceeding with the upgrade.
