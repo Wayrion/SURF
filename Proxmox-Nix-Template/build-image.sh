@@ -59,7 +59,7 @@ ${SUDO}qm set "${build_vm_id}" \
   --ostype l26 \
   --searchdomain "${searchdomain}" \
   --sshkeys "${keyfile}" \
-  --ciuser "root" \
+  --ciuser "${cloud_init_user}" \
   --cipassword "${root_pwd_hash}" \
   --ipconfig0 ip=dhcp \
   --boot order=virtio0 \
