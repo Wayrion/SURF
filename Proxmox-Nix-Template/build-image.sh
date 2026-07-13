@@ -6,7 +6,7 @@ set -eu
 if [ "$(id -u)" -eq 0 ]; then
   SUDO=""
 elif command -v sudo >/dev/null 2>&1; then
-  SUDO="sudo "
+  SUDO="sudo"
 else
   echo "[ERROR] This script requires root privileges for Proxmox commands. Please run as root"
   exit 1
@@ -17,7 +17,7 @@ fi
 mkdir -p "${install_dir}"
 
 echo "[INFO] Checking for ID conflicts..."
-if ${SUDO} test -f "/etc/pve/qemu-server/${build_vm_id}.conf"; then
+if $SUDO test -f "/etc/pve/qemu-server/${build_vm_id}.conf"; then
   echo "[ERROR] VM ID ${build_vm_id} already exists! Aborting to prevent data loss."
   exit 1
 fi
@@ -29,7 +29,7 @@ if ! curl -f -L -s "${vma_url}" -o "${staging_dir}/${image_name}"; then
 fi
 
 echo "[INFO] Restoring VM from VMA backup archive."
-${SUDO}qmrestore "${staging_dir}/${image_name}" "${build_vm_id}" --storage "${storage_location}" --unique 1
+$SUDO qmrestore "${staging_dir}/${image_name}" "${build_vm_id}" --storage "${storage_location}" --unique 1
 
 echo "[ACTION REQUIRED] Root Password"
 echo "You need a SHA-512 hashed password for the NixOS root user."
@@ -38,7 +38,8 @@ echo "If you don't have a hash ready, press Ctrl+C to abort, then run:"
 echo "  openssl passwd -6"
 echo ""
 echo "Copy the output (it starts with \$6\$), re-run this script, and paste it below."
-read -r -p "Paste your password hash here: " root_pwd_hash
+printf "Paste your password hash here: "
+read -r root_pwd_hash
 
 if [ -z "${root_pwd_hash}" ]; then
   echo "[ERROR] No hash provided."
@@ -46,11 +47,11 @@ if [ -z "${root_pwd_hash}" ]; then
 fi
 
 echo "[INFO] Setting up Cloud-Init User Data Snippet..."
-${SUDO}mkdir -p /var/lib/vz/snippets
-${SUDO}cp "${install_dir}/nixos-user-data.yaml" "/var/lib/vz/snippets/nixos-${build_vm_id}-userdata.yaml"
+$SUDO mkdir -p /var/lib/vz/snippets
+$SUDO cp "${install_dir}/nixos-user-data.yaml" "/var/lib/vz/snippets/nixos-${build_vm_id}-userdata.yaml"
 
 echo "[INFO] Configuring VM Hardware and Cloud-Init Overrides..."
-${SUDO}qm set "${build_vm_id}" \
+$SUDO qm set "${build_vm_id}" \
   --name "${template_name}" \
   --memory "${vm_mem}" \
   --cores "${vm_cores}" \
@@ -65,11 +66,12 @@ ${SUDO}qm set "${build_vm_id}" \
   --boot order=virtio0 \
   --machine q35 \
   --bios seabios \
+  --scsihw "${scsihw}" \
   --agent enabled=1 \
   --cicustom "vendor=local:snippets/nixos-${build_vm_id}-userdata.yaml"
 
 echo "[INFO] Conversion to template."
-${SUDO}qm template "${build_vm_id}"
+$SUDO qm template "${build_vm_id}"
 
 echo "[INFO] Cleaning up staging files from /tmp."
 rm -f "${staging_dir}/${image_name}"
