@@ -39,6 +39,7 @@ fi
 
 if [ ! -f "${keyfile}" ]; then
     echo "Key File not found, please add your ssh keys to ${keyfile}"
+    exit 1
 fi
 
 echo "[INFO] Downloading NixOS 26.05 VMA image from Hydra to /tmp..."
