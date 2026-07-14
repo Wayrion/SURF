@@ -38,7 +38,6 @@
       `sudo apt install amd64-microcode`
       - On Intel Systems:
       `sudo apt install intel-microcode`
-- Remove Systemd boot if the checklist prompts you to, using `sudo apt remove systemd-boot`
 - At this step, it would be ideal to perform a reboot to ensure that the latest micro-code patch has been applied.
 - Run `sudo apt dist-upgrade` to be on the latest minor version. Then hard refresh (Ctrl + Shift + R or ⌘ + Alt + R) the web UI to see the changes. Use `pveversion` to check your version. Ensure you are at least on version 8.4.1.
 - Point apt to Debian 13 (Trixie) repositories with:
@@ -65,6 +64,8 @@ EOF
 - Now, we must take a backup of the running systems. If a backup task exists, run it now. If not see #Creating a Datastore and API Token for Proxmox Backup Server
 
 - At this point we are almost done, and we must perform a final check with `pve8to9 --full` to see if all the items in the checklist have been completed.
+
+- Remove Systemd boot **IF AND ONLY IF** the checklist prompts you to, using `sudo apt remove systemd-boot`
 
 - Ensure you're in the terminal multiplexer of your choice.
 
