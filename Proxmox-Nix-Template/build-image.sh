@@ -22,15 +22,6 @@ if $SUDO test -f "/etc/pve/qemu-server/${build_vm_id}.conf"; then
   exit 1
 fi
 
-echo "[INFO] Downloading NixOS 26.05 VMA image from Hydra to /tmp..."
-if ! curl -f -L -s "${vma_url}" -o "${staging_dir}/${image_name}"; then
-  echo "[ERROR] Download failed! The Hydra URL returned a 404."
-  exit 1
-fi
-
-echo "[INFO] Restoring VM from VMA backup archive."
-$SUDO qmrestore "${staging_dir}/${image_name}" "${build_vm_id}" --storage "${storage_location}" --unique 1
-
 echo "[ACTION REQUIRED] Root Password"
 echo "You need a SHA-512 hashed password for the NixOS root user."
 echo ""
@@ -45,6 +36,15 @@ if [ -z "${root_pwd_hash}" ]; then
   echo "[ERROR] No hash provided."
   exit 1
 fi
+
+echo "[INFO] Downloading NixOS 26.05 VMA image from Hydra to /tmp..."
+if ! curl -f -L -s "${vma_url}" -o "${staging_dir}/${image_name}"; then
+  echo "[ERROR] Download failed! The Hydra URL returned a 404."
+  exit 1
+fi
+
+echo "[INFO] Restoring VM from VMA backup archive."
+$SUDO qmrestore "${staging_dir}/${image_name}" "${build_vm_id}" --storage "${storage_location}" --unique 1
 
 echo "[INFO] Setting up Cloud-Init User Data Snippet..."
 $SUDO mkdir -p /var/lib/vz/snippets
