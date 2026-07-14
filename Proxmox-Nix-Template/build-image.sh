@@ -37,6 +37,10 @@ if [ -z "${root_pwd_hash}" ]; then
   exit 1
 fi
 
+if [ ! -f "${keyfile}" ]; then
+    echo "Key File not found, please add your ssh keys to ${keyfile}"
+fi
+
 echo "[INFO] Downloading NixOS 26.05 VMA image from Hydra to /tmp..."
 if ! curl -f -L -s "${vma_url}" -o "${staging_dir}/${image_name}"; then
   echo "[ERROR] Download failed! The Hydra URL returned a 404."
