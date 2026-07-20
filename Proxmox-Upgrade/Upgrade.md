@@ -130,7 +130,7 @@ If everything went well you have now finished the upgrade, pat yourself on the b
     - **Fingerprint**: 
       - Obtain the fingerprint from Proxmox Backup Server web interface under **Datacenter** -> **Summary**
   - Click **Add** to create the storage
-  - *Note: If you run into issues where Proxmox VE complains about not being able to find a datastore, check if you can reach your Proxmox Backup Server instance using ping!. If it is unreachable, check nftables and make sure you allow traffic both ways.*
+  - *Note: If you run into issues where Proxmox VE complains about not being able to find a datastore, check if you can reach your Proxmox Backup Server instance using ping! If it is unreachable, check nftables and make sure you allow traffic both ways.*
 
 - Add Permissions to the Storage and the token:
   - Go back to Proxmox Backup Server
