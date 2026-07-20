@@ -15,7 +15,6 @@
 
 ![output of pve8to9](./images/checklist-initial.png)
 
-
 - Run `sudo apt update` to update all packages to the latest version
 - Update to the latest microcode.
     1. We need to enable non-free firmware. We can do this by:
@@ -98,12 +97,12 @@ If everything went well you have now finished the upgrade, pat yourself on the b
 # Creating a Datastore and API Token for Proxmox Backup Server
 - Create a datastore in Proxmox Backup Server (if it doesn't already exist):
   - Log into your Proxmox Backup Server web interface
-  - Go to Datacenter -> Storage
-  - Click Add -> Directory
+  - Go to **Datacenter** -> **Storage**
+  - Click **Add** -> **Directory**
   - Fill in the details:
-    - ID: Choose a name for your datastore (e.g., `backups-store`)
-    - Backing Path: The path where backups will be stored (e.g., `/mnt/datastore/backups-disk`)
-    - Datastore Type: Select **Local**
+    - **ID**: Choose a name for your datastore (e.g., `backups-store`)
+    - **Backing Path**: The path where backups will be stored (e.g., `/mnt/datastore/backups-disk`)
+    - **Datastore Type**: Select **Local**
     - **Prune**: Configure retention policy here (recommended)
   - Click **Add** to create the datastore
     - *Note: If a datastore with this ID already exists, you can skip this step*
@@ -118,7 +117,7 @@ If everything went well you have now finished the upgrade, pat yourself on the b
   - **IMPORTANT**: Copy the generated token value immediately - you won't be able to see it again!
 
 - Add Proxmox Backup Server storage to Proxmox VE:
-  - Log into your Proxmox VE web interface
+  - Log into your **Proxmox VE** web interface
   - Go to **Datacenter** -> **Storage**
   - Click **Add** -> **Proxmox Backup Server**
   - Fill in the details:
