@@ -66,13 +66,22 @@ EOF
 
 - Ensure you're in the terminal multiplexer of your choice.
 
-- We can finally run `sudo apt dist-upgrade` to start the official upgrade to v9. For any diffs opened in vim, firstly, do not panic and forget how to exit vim, then type q (or :q) to exit vim. For any splash screens asking for confirmation of changes, follow the guide listed in https://pve.proxmox.com/wiki/Upgrade_from_8_to_9#Update_Debian_Base_Repositories_to_Trixie, under the title, "Upgrade the system to Debian Trixie and Proxmox VE 9.0". Defaults are usually safe
+- We can finally run `sudo apt dist-upgrade` to start the official upgrade to v9. For any diffs opened in vim, firstly, do not panic and forget how to exit vim, then type q (or :q) to exit vim. For any splash screens asking for confirmation of changes, follow the guide listed in https://pve.proxmox.com/wiki/Upgrade_from_8_to_9#Update_Debian_Base_Repositories_to_Trixie, under the title, "Upgrade the system to Debian Trixie and Proxmox VE 9.0". Defaults are usually safe.
+
+![/etc/issue configuration change during upgrade](./images/etc-issue-conf.png)
+![/etc/lvm configuration change during upgrade](./images/etc-lvm-conf.png)
+
+Just pick restart automatically, as some packages restart automaticly anyway.
+![Option to researt packages automatically](./images/restart-conf.png)
 
 - After dist-upgrade completes successfully, you can re-check using `pve8to9 --full` to ensure that the upgrade is successful.
 - Optional but highly recommended, run `sudo apt modernize-sources` to migrate to the recommended deb822 style format.
 - Reboot and check you are on the right version using `pveversion` and also perform a hard refresh on the browser as well (Ctrl + Shift + R or ⌘ + Alt + R).
 - Restart the VMs again using `for vm in $(cat /root/running_vms.txt); do sudo qm start $vm; done`
 
+If everything went well you have now finished the upgrade, pat yourself on the back!
+
+![Dashboard when the upgrade is finished](Images/upgraded-nijmegen-server.png)
 
 # Creating a backup task
 - If you do not already have a backup task set up, create one now:
@@ -85,7 +94,6 @@ EOF
   - Do not configure retention policies here, but rather in Proxmox Backup Server.
   - Confirm and create the job.
 - Once the backup task is created (or if it already exists), run it now to back up your systems before proceeding with the upgrade.
-
 
 # Creating a Datastore and API Token for Proxmox Backup Server
 - Create a datastore in Proxmox Backup Server (if it doesn't already exist):
@@ -122,11 +130,13 @@ EOF
     - **Fingerprint**: 
       - Obtain the fingerprint from Proxmox Backup Server web interface under **Datacenter** -> **Summary**
   - Click **Add** to create the storage
+  - *Note: If you run into issues where Proxmox VE complains about not being able to find a datastore, check if you can reach your Proxmox Backup Server instance using ping!. If it is unreachable, check nftables and make sure you allow traffic both ways.*
 
 - Add Permissions to the Storage and the token:
   - Go back to Proxmox Backup Server
   - Go to **DataStore** -> **[DataStore Name]** (e.g., `backups-store`) -> Permissions -> **Click Add**
-  - Select the appropriate path, and then select the scoped API token for the backup task. Then grant it the  **DataStore.Admin** role.
+  - Select the appropriate path, and then select the scoped API token for the backup task. Then grant it the  **DataStore.Admin** role. 
+  - *Note: I've tried to get away with just using Datastore.Backup, but that lead to permission issues.* 
 
 - Configure backup job to use Proxmox Backup Server storage:
   - When creating or editing a backup job in Proxmox Virtual Environment (Datacenter -> Backup):
