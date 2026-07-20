@@ -22,15 +22,12 @@
     2. `sudo nano /etc/apt/sources.list`
     3. Add non-free-firmware to the end of the sources on EACH line.
     4. The final sources.list file should look something like this:
-
-```bash
-    deb http://deb.debian.org/debian bookworm main contrib non-free-firmware
-    deb http://deb.debian.org/debian bookworm-updates main contrib non-free-firmware
-    deb http://security.debian.org bookworm-security main contrib non-free-firmware
-    ```
-
+        ```bash
+        deb http://deb.debian.org/debian bookworm main contrib non-free-firmware
+        deb http://deb.debian.org/debian bookworm-updates main contrib non-free-firmware
+        deb http://security.debian.org bookworm-security main contrib non-free-firmware
+        ```
     ![sources.list after adding non-free-firmware](./images/non-free-firmware.png)
-
     5. Save and Exit (Ctrl + S then Ctrl + X)
     6. Run sudo apt update
     7. 
@@ -90,7 +87,7 @@ EOF
 - Once the backup task is created (or if it already exists), run it now to back up your systems before proceeding with the upgrade.
 
 
-# Creating a Datastore and API Token for Proxmox Backup Server [W.I.P]
+# Creating a Datastore and API Token for Proxmox Backup Server
 - Create a datastore in Proxmox Backup Server (if it doesn't already exist):
   - Log into your Proxmox Backup Server web interface
   - Go to Datacenter -> Storage
@@ -137,4 +134,5 @@ EOF
     - Configure other settings as needed (schedule, mode, etc.)
     - Remember: Configure retention policies in Proxmox Backup Server, not in the Proxmox Virtual Environment backup job
 
-  - Incomplete: add information on how to backup the /etc/ folder
+  - Backup stuff in /etc/ folder with:
+  `tar -czvf /root/pve8-host-etc-backup-$(date +%F).tar.gz /etc`
