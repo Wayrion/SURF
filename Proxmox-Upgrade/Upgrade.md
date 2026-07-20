@@ -27,13 +27,13 @@
         deb http://deb.debian.org/debian bookworm-updates main contrib non-free-firmware
         deb http://security.debian.org bookworm-security main contrib non-free-firmware
         ```
-    ![sources.list after adding non-free-firmware](./images/non-free-firmware.png)
+        ![sources.list after adding non-free-firmware](./images/non-free-firmware.png)
     5. Save and Exit (Ctrl + S then Ctrl + X)
     6. Run sudo apt update
     7. 
     - On AMD Systems (Most likely):
       `sudo apt install amd64-microcode`
-      - On Intel Systems:
+    - On Intel Systems:
       `sudo apt install intel-microcode`
 - At this step, it would be ideal to perform a reboot to ensure that the latest micro-code patch has been applied.
 - Run `sudo apt dist-upgrade` to be on the latest minor version. Then hard refresh (Ctrl + Shift + R or ⌘ + Alt + R) the web UI to see the changes. Use `pveversion` to check your version. Ensure you are at least on version 8.4.1.
